@@ -1,11 +1,11 @@
 import React from 'react';
 
-const Home = () => {
+const Unauth = () => {
     return (
         <div>
-            dsfsdfsfd
+            <h1>unauth</h1>
         </div>
     );
 };
 
-export default Home;
+export default Unauth;

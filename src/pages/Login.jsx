@@ -1,18 +1,24 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {useForm} from "react-hook-form";
 import AppForm from "../components/UI/AppForm.jsx";
 import AppInput from "../components/UI/AppInput.jsx";
 import AppButton from "../components/UI/AppButton.jsx";
 import BgForm from "../assets/bg-form.jpg"
-import axios from "axios";
+import axios from "../api/axios";
+import useAuth from "../hooks/useAuth.js";
 import {Link, useLocation, useNavigate} from "react-router-dom";
-import {useAuth} from "../hooks/useAuth.js";
+
+const LOGIN_URL = '/login'
+const COOKIE_URL = '/sanctum/csrf-cookie'
 const Login = () => {
-        const [isLoading, setIsLoading] = useState(false)
+        const {setAuth} = useAuth()
+
         const navigate = useNavigate();
         const location = useLocation();
-        const {signIn} = useAuth();
-        const fromPage = location.state?.from?.pathname || '/'
+        const from = location.state?.from?.pathname || '/';
+
+        const [errMsg, setErrMsg] = useState('')
+        const [isLoading, setIsLoading] = useState(false)
         const {
             register,
             formState: {
@@ -21,26 +27,30 @@ const Login = () => {
             handleSubmit,
             reset
         } = useForm({
-            mode: "onBlur"
+            mode: 'onBlur'
         });
         const onSubmit = async (data) => {
             setIsLoading(true)
-            const form = data
-            const user = {
-                name: form.login,
-                password: form.password
-            }
-            await axios.get('http://localhost:8000/sanctum/csrf-cookie').then(async response => {
-                await axios.post('http://localhost:8000/login', data, {
-                    withCredentials: true,
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                }).then(response => {
-                    setIsLoading(false)
-                    signIn(user, () => navigate(fromPage, {replace: true}))
+            try {
+                await axios.get(COOKIE_URL).then(res => {
+                    axios.post(LOGIN_URL, data).then(res => {
+                        setAuth(res.data)
+                        navigate(from, {replace: true})
+                    })
                 })
-            })
+            } catch (err) {
+                if (!err?.response) {
+                    setErrMsg('Нет ответа сервера');
+                } else if (err.response?.status === 400) {
+                    setErrMsg('Имя пользователя или пароль отсутствует')
+                } else if (err.response?.status === 401) {
+                    setErrMsg('Отказ в доступе')
+                } else {
+                    setErrMsg('Ошибка входа')
+                }
+            }
+            reset()
+            setIsLoading(false)
         }
         const logout = async () => {
             await axios.delete('http://localhost:8000/logout', {withCredentials: true,}).then(response => {
@@ -55,8 +65,8 @@ const Login = () => {
                     <div className="flex justify-center w-full ">
                         <div className="flex flex-col gap-y-4 w-[430px]">
                             <h1 className="font-bold text-3xl text-[#E5E6EB]">Вход</h1>
-                            <p className="text-[#60646C] text-base font-bold">Нет аккаунта? <span
-                                className="text-[#D52026]">Регистрация</span></p>
+                            <p className="text-[#60646C] text-base font-bold">Нет аккаунта? <Link to="/register"
+                                className="text-[#D52026]">Регистрация</Link></p>
                             <AppForm onSubmit={handleSubmit(onSubmit)}>
                                 <AppInput
                                     {...register('login', {
@@ -91,6 +101,12 @@ const Login = () => {
                                     isLoading={isLoading}
                                 />
                             </AppForm>
+                            <AppButton
+                                type="primary"
+                                btnText="Выйти"
+                                isLoading={isLoading}
+                                onClick={logout}
+                            />
                         </div>
                     </div>
                     <img src={BgForm} alt="BgForm" className="rounded-2xl"/>

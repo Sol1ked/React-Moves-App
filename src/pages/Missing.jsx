@@ -1,11 +1,11 @@
 import React from 'react';
 
-const Home = () => {
+const Missing = () => {
     return (
         <div>
-            dsfsdfsfd
+            404
         </div>
     );
 };
 
-export default Home;
+export default Missing;
