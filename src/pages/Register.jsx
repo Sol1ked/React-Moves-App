@@ -134,7 +134,8 @@ const Register = () => {
                                 placeholder="Подтвердите Пароль"
                             />
                             <div className="text-base text-red-600 h-[10px] mb-4">
-                                {errors?.password_confirmation && <p>{errors?.password_confirmation?.message || "Error!"}</p>}
+                                {errors?.password_confirmation &&
+                                    <p>{errors?.password_confirmation?.message || "Error!"}</p>}
                             </div>
                             <AppButton
                                 type="primary"
