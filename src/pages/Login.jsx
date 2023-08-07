@@ -1,22 +1,20 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {useForm} from "react-hook-form";
 import AppForm from "../components/UI/AppForm.jsx";
 import AppInput from "../components/UI/AppInput.jsx";
 import AppButton from "../components/UI/AppButton.jsx";
 import BgForm from "../assets/bg-form.jpg"
 import axios from "../api/axios";
-import useAuth from "../hooks/useAuth.js";
 import {Link, useLocation, useNavigate} from "react-router-dom";
+import AppMessage from "../components/UI/AppMessage.jsx";
 
 const LOGIN_URL = '/login'
 const COOKIE_URL = '/sanctum/csrf-cookie'
 const Login = () => {
-        const {setAuth} = useAuth()
-
         const navigate = useNavigate();
         const location = useLocation();
+        const [modal, setModal] = useState(false)
         const from = location.state?.from?.pathname || '/';
-
         const [errMsg, setErrMsg] = useState('')
         const [isLoading, setIsLoading] = useState(false)
         const {
@@ -29,28 +27,28 @@ const Login = () => {
         } = useForm({
             mode: 'onBlur'
         });
+
+        const handleCloseModal = () => {
+            setModal(false);
+        };
+
+        const csrf = () => axios.get(COOKIE_URL)
         const onSubmit = async (data) => {
             setIsLoading(true)
+            await csrf()
             try {
-                await axios.get(COOKIE_URL).then(res => {
-                    axios.post(LOGIN_URL, data).then(res => {
-                        setAuth(res.data)
-                        navigate(from, {replace: true})
-                    })
+                await axios.post(LOGIN_URL, data).then(res => {
+                    navigate(from, {replace: true})
                 })
-            } catch (err) {
-                if (!err?.response) {
-                    setErrMsg('Нет ответа сервера');
-                } else if (err.response?.status === 400) {
-                    setErrMsg('Имя пользователя или пароль отсутствует')
-                } else if (err.response?.status === 401) {
-                    setErrMsg('Отказ в доступе')
-                } else {
-                    setErrMsg('Ошибка входа')
+            } catch (e) {
+                if (e.response.status === 422) {
+                    setErrMsg(e.response.data.message)
                 }
+            } finally {
+                setModal(true)
+                reset()
+                setIsLoading(false)
             }
-            reset()
-            setIsLoading(false)
         }
         const logout = async () => {
             await axios.delete('http://localhost:8000/logout', {withCredentials: true,}).then(response => {
@@ -61,12 +59,21 @@ const Login = () => {
         return (
             <div className="flex items-center justify-center h-screen">
                 <div
-                    className="m-auto w-[1170px] bg-[#1E1F24] p-3 flex p-4 rounded-2xl flex items-center justify-between m-4">
-                    <div className="flex justify-center w-full ">
+                    className="m-auto w-[1170px] bg-[#1E1F24] p-3 flex p-4 rounded-2xl flex items-center justify-between m-4 relative">
+                    {modal &&
+                        <AppMessage
+                            type={"error"}
+                            message={"Error"}
+                            messageText={errMsg}
+                            onCloseModal={handleCloseModal}
+                        />
+                    }
+                    <div className="flex justify-center w-full">
                         <div className="flex flex-col gap-y-4 w-[430px]">
                             <h1 className="font-bold text-3xl text-[#E5E6EB]">Вход</h1>
                             <p className="text-[#60646C] text-base font-bold">Нет аккаунта? <Link to="/register"
-                                className="text-[#D52026]">Регистрация</Link></p>
+                                                                                                  className="text-[#D52026]">Регистрация</Link>
+                            </p>
                             <AppForm onSubmit={handleSubmit(onSubmit)}>
                                 <AppInput
                                     {...register('login', {

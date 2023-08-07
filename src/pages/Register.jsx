@@ -6,6 +6,7 @@ import BgForm from "../assets/bg-form.jpg";
 import {useForm} from "react-hook-form";
 import axios from "../api/axios.js";
 import {Link, useLocation, useNavigate} from "react-router-dom";
+import AppMessage from "../components/UI/AppMessage.jsx";
 
 const REGISTER_URL = '/register'
 const COOKIE_URL = '/sanctum/csrf-cookie'
@@ -13,6 +14,7 @@ const Register = () => {
     const [isLoading, setIsLoading] = useState(false)
     const [errMsg, setErrMsg] = useState('');
     const navigate = useNavigate();
+    const [modal, setModal] = useState(false)
     const location = useLocation();
     const from = location.state?.from?.pathname || '/';
     const {
@@ -26,38 +28,41 @@ const Register = () => {
     } = useForm({
         mode: 'onBlur'
     });
+    const handleCloseModal = () => {
+        setModal(false);
+    };
     const password = useRef({})
+    const csrf = () => axios.get(COOKIE_URL)
     password.current = watch("password", "");
     const onSubmit = async (data) => {
-        console.log(data)
         setIsLoading(true)
+        await csrf()
         try {
-            await axios.get(COOKIE_URL).then(res => {
-                axios.post(REGISTER_URL, data).then(res => {
-                        // navigate(from, {replace: true})
-                        console.log(res.data)
-                    }
-                )
+            await axios.post(REGISTER_URL, data).then(res => {
+                // navigate(from, {replace: true})
             })
-        } catch
-            (err) {
-            if (!err?.response) {
-                setErrMsg('Нет ответа сервера');
-            } else if (err.response?.status === 400) {
-                setErrMsg('Имя пользователя или пароль отсутствует')
-            } else if (err.response?.status === 401) {
-                setErrMsg('Отказ в доступе')
-            } else {
-                setErrMsg('Ошибка входа')
+        } catch (e) {
+            if (e.response.status === 422) {
+                setErrMsg(e.response.data.message)
             }
+        } finally {
+            setModal(true)
+            reset()
+            setIsLoading(false)
         }
-        reset()
-        setIsLoading(false)
     }
     return (
         <div className="flex items-center justify-center h-screen">
             <div
-                className="m-auto w-[1170px] bg-[#1E1F24] p-3 flex p-4 rounded-2xl flex items-center justify-between m-4">
+                className="m-auto w-[1170px] bg-[#1E1F24] p-3 flex p-4 rounded-2xl flex items-center justify-between m-4 relative">
+                {modal &&
+                    <AppMessage
+                        type={"error"}
+                        message={"Error"}
+                        messageText={errMsg}
+                        onCloseModal={handleCloseModal}
+                    />
+                }
                 <div className="flex justify-center w-full ">
                     <div className="flex flex-col gap-y-4 w-[430px]">
                         <h1 className="font-bold text-3xl text-[#E5E6EB]">Регистрация</h1>
