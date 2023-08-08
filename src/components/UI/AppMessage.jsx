@@ -42,7 +42,7 @@ const AppMessage = ({type, onCloseModal, messageText, message, ...props}) => {
             </div>
             <div
                 className="cursor-pointer text-xs flex items-center shrink-2 py-2 px-3 border-l-[1px] border-zinc-600">
-                <p onClick={() => onCloseModal()}
+                <p
                 >Закрыть</p>
             </div>
         </div>

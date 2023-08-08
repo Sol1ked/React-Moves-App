@@ -1,12 +1,13 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {useForm} from "react-hook-form";
 import AppForm from "../components/UI/AppForm.jsx";
 import AppInput from "../components/UI/AppInput.jsx";
 import AppButton from "../components/UI/AppButton.jsx";
 import BgForm from "../assets/bg-form.jpg"
-import axios from "../api/axios";
+import axios from "../api/axios-settings";
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import AppMessage from "../components/UI/AppMessage.jsx";
+import {sendRequest} from "../api/api.js";
 
 const LOGIN_URL = '/login'
 const COOKIE_URL = '/sanctum/csrf-cookie'
@@ -28,32 +29,29 @@ const Login = () => {
             mode: 'onBlur'
         });
 
-        const handleCloseModal = () => {
-            setModal(false);
-        };
-
-        const csrf = () => axios.get(COOKIE_URL)
         const onSubmit = async (data) => {
-            setIsLoading(true)
-            await csrf()
-            try {
-                await axios.post(LOGIN_URL, data).then(res => {
-                    navigate(from, {replace: true})
-                })
-            } catch (e) {
-                if (e.response.status === 422) {
-                    setErrMsg(e.response.data.message)
-                }
-            } finally {
-                setModal(true)
-                reset()
-                setIsLoading(false)
-            }
+            await sendRequest(LOGIN_URL, 'post', data)
+            // setIsLoading(true)
+            // await csrf()
+            // try {
+            //     await axios.post(LOGIN_URL, data).then(res => {
+            //         navigate(from, {replace: true})
+            //     })
+            // } catch (e) {
+            //     if (e.response.status === 422) {
+            //         setErrMsg(e.response.data.message)
+            //     }
+            // } finally {
+            //     setModal(true)
+            //     reset()
+            //     setIsLoading(false)
+            // }
         }
         const logout = async () => {
             await axios.delete('http://localhost:8000/logout', {withCredentials: true,}).then(response => {
                 console.log(response)
             })
+            reset()
         }
 
         return (
@@ -65,7 +63,7 @@ const Login = () => {
                             type={"error"}
                             message={"Error"}
                             messageText={errMsg}
-                            onCloseModal={handleCloseModal}
+                            // onCloseModal={handleCloseModal}
                         />
                     }
                     <div className="flex justify-center w-full">

@@ -4,7 +4,7 @@ import AppInput from "../components/UI/AppInput.jsx";
 import AppButton from "../components/UI/AppButton.jsx";
 import BgForm from "../assets/bg-form.jpg";
 import {useForm} from "react-hook-form";
-import axios from "../api/axios.js";
+import axios from "../api/axios-settings.js";
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import AppMessage from "../components/UI/AppMessage.jsx";
 
@@ -59,7 +59,7 @@ const Register = () => {
                     <AppMessage
                         type={"error"}
                         message={"Error"}
-                        messageText={errMsg}
+                        messageText={'sdfsd'}
                         onCloseModal={handleCloseModal}
                     />
                 }
