@@ -4,7 +4,7 @@ import AppButton from "../components/UI/AppButton.jsx";
 
 const AppMiniCardsList = () => {
     return (
-        <div className="flex flex-col">
+        <div className="flex flex-col items-center">
             <h2 className="text-xl font-bold text-[#FFFFFF]">Популярное</h2>
             <AppMiniCard/>
             <AppMiniCard/>

@@ -1,14 +1,29 @@
-import React, {useEffect, useState} from 'react';
-import {Link} from "react-router-dom";
-import useAuth from "../hooks/useAuth.js";
+import React from 'react';
+import {Link} from 'react-router-dom';
 
 const RequirePage = () => {
-    const {auth} = useAuth();
-
     return (
-        <div>
-            <h1>Личный профиль</h1>
-            <Link to="/">На главную</Link>
+        <div className="flex justify-between w-full gap-4 flex-wrap">
+            <div className="flex-1 bg-red-900 p-4">
+                <h1>Личный профиль</h1>
+                <Link to="/">На главную</Link>
+            </div>
+            <div className="flex-1 bg-red-900 p-4">
+                <h1>Личный профиль</h1>
+                <Link to="/">На главную</Link>
+            </div>
+            <div className="flex-1 bg-red-900 p-4">
+                <h1>Личный профиль</h1>
+                <Link to="/">На главную</Link>
+            </div>
+            <div className="flex-1 bg-red-900 p-4">
+                <h1>Личный профиль</h1>
+                <Link to="/">На главную</Link>
+            </div>
+            <div className="flex-1 bg-red-900 p-4">
+                <h1>Личный профиль</h1>
+                <Link to="/">На главную</Link>
+            </div>
         </div>
     );
 };

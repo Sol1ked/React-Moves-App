@@ -4,20 +4,12 @@ import AppForm from "../components/UI/AppForm.jsx";
 import AppInput from "../components/UI/AppInput.jsx";
 import AppButton from "../components/UI/AppButton.jsx";
 import BgForm from "../assets/bg-form.jpg"
-import axios from "../api/axios-settings";
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import AppMessage from "../components/UI/AppMessage.jsx";
-import {sendRequest} from "../api/api.js";
+import {useRequestManager} from "../hooks/useRequestManager.js";
 
 const LOGIN_URL = '/login'
-const COOKIE_URL = '/sanctum/csrf-cookie'
 const Login = () => {
-        const navigate = useNavigate();
-        const location = useLocation();
-        const [modal, setModal] = useState(false)
-        const from = location.state?.from?.pathname || '/';
-        const [errMsg, setErrMsg] = useState('')
-        const [isLoading, setIsLoading] = useState(false)
         const {
             register,
             formState: {
@@ -29,41 +21,28 @@ const Login = () => {
             mode: 'onBlur'
         });
 
+        const {isLoading, modal, sendRequest, closeModal} = useRequestManager();
         const onSubmit = async (data) => {
-            await sendRequest(LOGIN_URL, 'post', data)
-            // setIsLoading(true)
-            // await csrf()
-            // try {
-            //     await axios.post(LOGIN_URL, data).then(res => {
-            //         navigate(from, {replace: true})
-            //     })
-            // } catch (e) {
-            //     if (e.response.status === 422) {
-            //         setErrMsg(e.response.data.message)
-            //     }
-            // } finally {
-            //     setModal(true)
-            //     reset()
-            //     setIsLoading(false)
-            // }
-        }
-        const logout = async () => {
-            await axios.delete('http://localhost:8000/logout', {withCredentials: true,}).then(response => {
-                console.log(response)
-            })
+            await sendRequest(LOGIN_URL, 'post', data);
             reset()
-        }
+        };
+
+        const logout = async () => {
+            await sendRequest('/logout', 'delete');
+            reset();
+        };
+
 
         return (
             <div className="flex items-center justify-center h-screen">
                 <div
                     className="m-auto w-[1170px] bg-[#1E1F24] p-3 flex p-4 rounded-2xl flex items-center justify-between m-4 relative">
-                    {modal &&
+                    {modal.isOpen &&
                         <AppMessage
-                            type={"error"}
-                            message={"Error"}
-                            messageText={errMsg}
-                            // onCloseModal={handleCloseModal}
+                            type={modal.type}
+                            message={modal.type}
+                            messageText={modal.message}
+                            closeModal={closeModal}
                         />
                     }
                     <div className="flex justify-center w-full">

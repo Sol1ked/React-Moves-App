@@ -4,17 +4,13 @@ import AppInput from "../components/UI/AppInput.jsx";
 import AppButton from "../components/UI/AppButton.jsx";
 import BgForm from "../assets/bg-form.jpg";
 import {useForm} from "react-hook-form";
-import axios from "../api/axios-settings.js";
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import AppMessage from "../components/UI/AppMessage.jsx";
+import {useRequestManager} from "../hooks/useRequestManager.js";
 
 const REGISTER_URL = '/register'
-const COOKIE_URL = '/sanctum/csrf-cookie'
 const Register = () => {
-    const [isLoading, setIsLoading] = useState(false)
-    const [errMsg, setErrMsg] = useState('');
     const navigate = useNavigate();
-    const [modal, setModal] = useState(false)
     const location = useLocation();
     const from = location.state?.from?.pathname || '/';
     const {
@@ -28,39 +24,25 @@ const Register = () => {
     } = useForm({
         mode: 'onBlur'
     });
-    const handleCloseModal = () => {
-        setModal(false);
-    };
     const password = useRef({})
-    const csrf = () => axios.get(COOKIE_URL)
     password.current = watch("password", "");
+
+    const {isLoading, modal, sendRequest, closeModal} = useRequestManager();
     const onSubmit = async (data) => {
-        setIsLoading(true)
-        await csrf()
-        try {
-            await axios.post(REGISTER_URL, data).then(res => {
-                // navigate(from, {replace: true})
-            })
-        } catch (e) {
-            if (e.response.status === 422) {
-                setErrMsg(e.response.data.message)
-            }
-        } finally {
-            setModal(true)
-            reset()
-            setIsLoading(false)
-        }
-    }
+        await sendRequest(REGISTER_URL, 'post', data);
+        reset()
+    };
+
     return (
         <div className="flex items-center justify-center h-screen">
             <div
                 className="m-auto w-[1170px] bg-[#1E1F24] p-3 flex p-4 rounded-2xl flex items-center justify-between m-4 relative">
-                {modal &&
+                {modal.isOpen &&
                     <AppMessage
-                        type={"error"}
-                        message={"Error"}
-                        messageText={'sdfsd'}
-                        onCloseModal={handleCloseModal}
+                        type={modal.type}
+                        message={modal.type}
+                        messageText={modal.message}
+                        closeModal={closeModal}
                     />
                 }
                 <div className="flex justify-center w-full ">

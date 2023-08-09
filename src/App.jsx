@@ -8,21 +8,26 @@ import Missing from "./pages/Missing.jsx";
 import RequireAuth from "./pages/RequireAuth.jsx";
 import Unauth from "./pages/Unauth.jsx";
 import Register from "./pages/Register.jsx";
+import {AuthProvider} from "./hoc/AuthProvider.jsx";
 
 function App() {
     return (
-        <Routes>
-            <Route path="/" element={<Layout/>}>
-                <Route path="home" element={<Home/>}/>
-                <Route path="missing" element={<Unauth/>}/>
-            </Route>
-            <Route element={<RequireAuth allowedRoles={['viewer']}/>}>
-                <Route path="/personal" element={<RequirePage/>}/>
-            </Route>
-            <Route path="/login" element={<Login/>}></Route>
-            <Route path="/register" element={<Register/>}></Route>
-            <Route path="*" element={<Missing/>}></Route>
-        </Routes>
+        <AuthProvider>
+            <Routes>
+                <Route path="/" element={<Layout/>}>
+                    <Route path="home" element={<Home/>}/>
+                    <Route path="missing" element={<Unauth/>}/>
+                    <Route path="*" element={<Missing/>}></Route>
+                    <Route path="/personal" element={
+                        <RequireAuth>
+                            <RequirePage/>
+                        </RequireAuth>
+                    }/>
+                </Route>
+                <Route path="/login" element={<Login/>}></Route>
+                <Route path="/register" element={<Register/>}></Route>
+            </Routes>
+        </AuthProvider>
     )
 }
 

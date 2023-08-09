@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {BsCheckCircle} from "react-icons/bs";
 import {AiOutlineCloseCircle} from "react-icons/ai"
 
-const AppMessage = ({type, onCloseModal, messageText, message, ...props}) => {
+const AppMessage = ({type, closeModal, messageText, message, ...props}) => {
     const [icon, setIcon] = useState(null)
     const getPopupClass = () => {
         switch (type) {
@@ -42,7 +42,7 @@ const AppMessage = ({type, onCloseModal, messageText, message, ...props}) => {
             </div>
             <div
                 className="cursor-pointer text-xs flex items-center shrink-2 py-2 px-3 border-l-[1px] border-zinc-600">
-                <p
+                <p onClick={closeModal}
                 >Закрыть</p>
             </div>
         </div>
