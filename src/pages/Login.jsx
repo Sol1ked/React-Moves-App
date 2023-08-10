@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {useForm} from "react-hook-form";
 import AppForm from "../components/UI/AppForm.jsx";
 import AppInput from "../components/UI/AppInput.jsx";
@@ -7,9 +7,14 @@ import BgForm from "../assets/bg-form.jpg"
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import AppMessage from "../components/UI/AppMessage.jsx";
 import {useRequestManager} from "../hooks/useRequestManager.js";
+import {useAuth} from "../hooks/useAuth.js";
 
 const LOGIN_URL = '/login'
 const Login = () => {
+        const navigate = useNavigate();
+        const location = useLocation();
+        const fromPage = location.state?.from?.pathname || '/';
+        const {signIn, signOut} = useAuth()
         const {
             register,
             formState: {
@@ -23,12 +28,18 @@ const Login = () => {
 
         const {isLoading, modal, sendRequest, closeModal} = useRequestManager();
         const onSubmit = async (data) => {
-            await sendRequest(LOGIN_URL, 'post', data);
+            const response = await sendRequest(LOGIN_URL, 'post', data);
+            if (response) {
+                signIn(response.data, () => navigate(fromPage, {replace: true}))
+            }
             reset()
         };
 
         const logout = async () => {
-            await sendRequest('/logout', 'delete');
+            const response = await sendRequest('/logout', 'delete');
+            if (response) {
+                signOut(() => navigate('/login', {replace: true}))
+            }
             reset();
         };
 

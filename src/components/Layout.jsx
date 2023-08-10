@@ -6,8 +6,9 @@ import {BsPerson} from "react-icons/bs";
 import {GoPeople} from "react-icons/go";
 import {RxExit} from "react-icons/rx";
 import {Link, Outlet,} from "react-router-dom";
-import {useAuth} from "../hooks/useAuth.js";
 import AppHeader from "../components/AppHeader.jsx";
+import AppMessage from "../components/UI/AppMessage.jsx";
+import {useRequestManager} from "../hooks/useRequestManager.js";
 
 const data = [{
     id: 1, title: 'Меню', items: [{id: 1, title: 'Главная', icon: <CgHome size={20}/>, active: true}, {
@@ -24,14 +25,26 @@ const data = [{
 }]
 const Layout = () => {
     const [menuItems, setMenuItems] = useState(data.slice())
-    return (<>
-        <div className="flex min-h-screen justify-center m-auto">
-            <AppHeader menuItems={menuItems}/>
-            <main className="pt-52 flex justify-center w-full px-20 h-full max-w-[1154px]">
-                <Outlet/>
-            </main>
-        </div>
-    </>);
+    const {modal, closeModal} = useRequestManager();
+    return (
+        <>
+            <div className="flex justify-center m-auto h-screen  max-w-[1240px] w-full">
+                {modal.isOpen &&
+                    <AppMessage
+                        type={modal.type}
+                        message={modal.type}
+                        messageText={modal.message}
+                        closeModal={closeModal}
+                    />
+                }
+                <AppHeader menuItems={menuItems}/>
+                <div className="w-full">
+                    <div className="z-10 flex mt-44 justify-centers px-12">
+                        <Outlet/>
+                    </div>
+                </div>
+            </div>
+        </>);
 };
 
 export default Layout;

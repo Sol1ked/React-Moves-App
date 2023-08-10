@@ -1,10 +1,9 @@
-import {Navigate, Outlet, useLocation} from "react-router-dom";
-import {useAuth} from "../hooks/useAuth.js";
+import {Navigate, useLocation} from "react-router-dom";
 
 
 const RequireAuth = ({children}) => {
     const location = useLocation()
-    const {user} = useAuth();
+    const user = localStorage.getItem('user')
     if (!user) {
         return <Navigate to='/login' state={{from: location}}/>
     }

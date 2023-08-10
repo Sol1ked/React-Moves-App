@@ -25,13 +25,14 @@ const AppMessage = ({type, closeModal, messageText, message, ...props}) => {
         <div
             {...props}
             className={`
-                absolute top-4 
                 ${type === 'error'
                 ? 'border-red-700'
                 : 'border-green-700'}
+                fixed top-4 left-2/4
+                z-10
                 border-l-[6px] 
                 flex items-stretch bg-[#1C1D22] 
-                rounded left-0 gap-4 justify-between
+                rounded gap-4 justify-between
             `}>
             <div className="flex items-center gap-2 p-2">
                 {icon}

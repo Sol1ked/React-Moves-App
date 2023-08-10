@@ -1,13 +1,13 @@
 import React from 'react';
 
 const AppButton = ({type, btnText, isLoading, ...props}) => {
-    const nameClass = ' cursor-pointer mt-12 px-6 py-3 w-full outline-none rounded-xl text-base  text-center text-[#fff] flex justify-center'
+    const nameClass = ' cursor-pointer px-6 py-3 outline-none rounded-xl text-base  text-center text-[#fff] flex justify-center'
 
-    const primary = 'text-[#fff] bg-[#D32125]'
+    const primary = 'text-[#fff] bg-[#D32125] w-full'
 
     const secondary = 'text-[#D52026] bg-[#1C1D22] border-2 border-[#D52026]'
 
-    const tertiary = 'text-[#fff] bg-[#D32125] shadow-[0px_0px_10px_2px_rgba(211,33,37,0.75)]'
+    const tertiary = 'text-[#fff] bg-[#D32125] max-w-[140px]'
 
     const getButtonClass = () => {
         switch (type) {

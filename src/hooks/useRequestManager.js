@@ -1,15 +1,9 @@
 import {useState} from "react";
 import axios from "../api/axios-settings";
-import {useLocation, useNavigate} from "react-router-dom";
-import {useAuth} from "../hooks/useAuth.js";
 
 const COOKIE_URL = '/sanctum/csrf-cookie';
 
 export const useRequestManager = () => {
-    const {signIn} = useAuth()
-    const navigate = useNavigate();
-    const location = useLocation();
-    const fromPage = location.state?.from?.pathname || '/';
 
     const [isLoading, setIsLoading] = useState(false);
     const [modal, setModal] = useState({isOpen: false, type: "", message: ""});
@@ -24,23 +18,15 @@ export const useRequestManager = () => {
 
     const handleResponse = async (response) => {
         if (response) {
-            const user = response?.data
-
-            signIn(user, () => navigate(fromPage, {replace: true}))
-            localStorage.setItem('user', JSON.stringify(user))
-
             return {
-                type: "success",
-                message: 'Успешно!'
+                type: "success", message: 'Успешно!'
             };
         } else {
             return {
-                type: "error",
-                message: response.data.message || "Произошла ошибка"
+                type: "error", message: response.data.message || "Произошла ошибка"
             };
         }
     };
-
     const sendRequest = async (url, method, data) => {
         try {
             setIsLoading(true);
@@ -48,11 +34,11 @@ export const useRequestManager = () => {
             const response = await axios[method](url, data);
             const modalContent = await handleResponse(response);
             openModal(modalContent);
+            return response;
         } catch (error) {
             const errorMessage = error.response?.data?.message || "Произошла ошибка";
             const modalContent = {
-                type: "error",
-                message: errorMessage,
+                type: "error", message: errorMessage,
             };
             openModal(modalContent);
         } finally {
@@ -71,6 +57,7 @@ export const useRequestManager = () => {
     const closeModal = () => {
         setModal({isOpen: false, type: "", message: ""});
     };
+
 
     return {isLoading, modal, sendRequest, closeModal};
 };
