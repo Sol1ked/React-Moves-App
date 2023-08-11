@@ -6,42 +6,46 @@ import {BsPerson} from "react-icons/bs";
 import {GoPeople} from "react-icons/go";
 import {RxExit} from "react-icons/rx";
 import {Link, Outlet,} from "react-router-dom";
-import AppHeader from "../components/AppHeader.jsx";
 import AppMessage from "../components/UI/AppMessage.jsx";
 import {useRequestManager} from "../hooks/useRequestManager.js";
+import AppLeftSide from "../components/UI/AppLeftSide.jsx";
+import AppRightSide from "../components/UI/AppRightSide.jsx";
+import AppSearch from "../components/UI/AppSearch.jsx";
 
-const data = [{
-    id: 1, title: 'Меню', items: [{id: 1, title: 'Главная', icon: <CgHome size={20}/>, active: true}, {
-        id: 2, title: 'Избранное', icon: <RiHeart3Line size={20}/>, active: false
-    }, {id: 3, title: 'Просмотренные', icon: <BiHistory size={20}/>, active: false},]
-}, {
-    id: 2,
-    title: 'Сообщество',
-    items: [{id: 1, title: 'Профиль', icon: <BsPerson size={20}/>, active: false, route: '/personal'}, {
-        id: 2, title: 'Друзья', icon: <GoPeople size={20}/>, active: false
+const data = [
+    {
+        id: 1, title: 'Меню', items: [
+            {id: 1, title: 'Главная', icon: <CgHome size={20}/>, active: false, route: ''},
+            {id: 2, title: 'Избранное', icon: <RiHeart3Line size={20}/>, active: false, route: 'favourite'},
+            {id: 3, title: 'Просмотренные', icon: <BiHistory size={20}/>, active: false, route: 'watched'},
+        ]
+    },
+    {
+        id: 2, title: 'Сообщество', items: [
+            {id: 1, title: 'Профиль', icon: <BsPerson size={20}/>, active: false, route: 'personal'},
+            {id: 2, title: 'Друзья', icon: <GoPeople size={20}/>, active: false, route: 'friends'},
+        ]
+    },
+    {
+        id: 3, title: 'Дополнительно', items: [
+            {id: 1, title: 'Выйти', icon: <RxExit size={20}/>, active: false, route: 'logout'},
+        ]
     },]
-}, {
-    id: 3, title: 'Дополнительно', items: [{id: 1, title: 'Выйти', icon: <RxExit size={20}/>, active: false},]
-}]
 const Layout = () => {
     const [menuItems, setMenuItems] = useState(data.slice())
-    const {modal, closeModal} = useRequestManager();
+    const {modal, closeModal, sendRequest} = useRequestManager();
     return (
         <>
-            <div className="flex justify-center m-auto h-screen  max-w-[1240px] w-full">
-                {modal.isOpen &&
-                    <AppMessage
-                        type={modal.type}
-                        message={modal.type}
-                        messageText={modal.message}
-                        closeModal={closeModal}
-                    />
-                }
-                <AppHeader menuItems={menuItems}/>
-                <div className="w-full">
-                    <div className="z-10 flex mt-44 justify-centers px-12">
-                        <Outlet/>
+            <div className="w-screen h-screen flex justify-center">
+                <div className="w-full h-full flex items-start max-w-[1900px]">
+                    <AppLeftSide menuItems={menuItems}/>
+                    <div className="flex flex-col w-full">
+                        <AppSearch/>
+                        <div className="p-12">
+                            <Outlet/>
+                        </div>
                     </div>
+                    <AppRightSide/>
                 </div>
             </div>
         </>);
