@@ -1,7 +1,7 @@
 import React from 'react';
 import {HiStar} from "react-icons/hi";
 
-const AppMark = () => {
+const AppMark = ({...props}) => {
     return (
         <div className="
         flex items-center
@@ -9,7 +9,7 @@ const AppMark = () => {
         bg-[#151310] bg-opacity-70
         text-sm mt-4
         text-[#E5E6EB] rounded-full">
-            <p>3.0</p>
+            <p>{props.mark}</p>
             <HiStar size={18}/>
         </div>
     );

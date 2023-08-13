@@ -4,7 +4,7 @@ import AppCustomLink from "../UI/AppCustomLink.jsx";
 
 const AppLeftSide = ({menuItems}) => {
     return (
-        <div className="w-3/12 w-full border-r-[#292A2F] border-r-[1px] bg-[#1C1D22] h-full py-12">
+        <div className="w-1/5 border-r-[#292A2F] border-r-[1px] bg-[#1C1D22] h-full py-12">
             <div>
                 <img src="src/assets/logo.svg" alt="logo" className="px-10"/>
                 {menuItems.map(mItem => (

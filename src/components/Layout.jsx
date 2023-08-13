@@ -33,7 +33,6 @@ const data = [
     },]
 const Layout = () => {
     const [menuItems, setMenuItems] = useState(data.slice())
-    const {modal, closeModal, sendRequest} = useRequestManager();
     return (
         <>
             <div className="w-screen h-screen flex justify-center">

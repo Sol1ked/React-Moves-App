@@ -1,22 +1,26 @@
-import {useState} from "react";
 import axios from "../api/axios-settings";
+import {useState} from "react";
+import {useLoading} from "../hooks/useLoading.js";
 
 const COOKIE_URL = '/sanctum/csrf-cookie';
 
+
 export const useRequestManager = () => {
-
-    const [isLoading, setIsLoading] = useState(false);
-    const [modal, setModal] = useState({isOpen: false, type: "", message: ""});
-
-    const getCSRFCookie = async () => {
+    const {showLoading, hideLoading} = useLoading();
+    const [notification, setNotification] = useState({
+        isOpen: false,
+        type: '',
+        message: ''
+    })
+    const getCookie = async () => {
         try {
-            await axios.get(COOKIE_URL);
-        } catch (error) {
-            console.log(error);
+            await axios.get(COOKIE_URL)
+        } catch (e) {
+            console.log(e.message)
         }
-    };
+    }
 
-    const handleResponse = async (response) => {
+    const addNotificationMessage = async (response) => {
         if (response) {
             return {
                 type: "success", message: 'Успешно!'
@@ -26,38 +30,39 @@ export const useRequestManager = () => {
                 type: "error", message: response.data.message || "Произошла ошибка"
             };
         }
-    };
-    const sendRequest = async (url, method, data) => {
+    }
+
+    const openNotification = (content) => {
+        const newNotification = {
+            isOpen: true,
+            ...content
+        }
+        setNotification(newNotification)
+    }
+
+    const closeNotification = () => {
+        setNotification({isOpen: false, type: "", message: ""})
+    }
+    const sendResponse = async (url, method, data) => {
         try {
-            setIsLoading(true);
-            await getCSRFCookie();
+            showLoading();
+            await getCookie();
             const response = await axios[method](url, data);
-            const modalContent = await handleResponse(response);
-            openModal(modalContent);
+            const modalContent = await addNotificationMessage(response);
+            openNotification(modalContent);
             return response;
-        } catch (error) {
-            const errorMessage = error.response?.data?.message || "Произошла ошибка";
-            const modalContent = {
+        } catch (e) {
+            const errorMessage = e.response?.data?.message || "Произошла ошибка";
+            const notificationContent = {
                 type: "error", message: errorMessage,
             };
-            openModal(modalContent);
+            openNotification(notificationContent)
         } finally {
-            setIsLoading(false);
+            hideLoading();
         }
-    };
-
-    const openModal = (modalContent) => {
-        const newModal = {
-            isOpen: true,
-            ...modalContent,
-        };
-        setModal(newModal);
-    };
-
-    const closeModal = () => {
-        setModal({isOpen: false, type: "", message: ""});
-    };
+    }
 
 
-    return {isLoading, modal, sendRequest, closeModal};
-};
+    return {sendResponse, notification, closeNotification}
+
+}

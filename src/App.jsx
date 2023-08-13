@@ -8,24 +8,27 @@ import NotFoundPage from "./pages/NotFoundPage.jsx";
 import RequireAuth from "./pages/RequireAuth.jsx";
 import Register from "./pages/Register.jsx";
 import {AuthProvider} from "./hoc/AuthProvider.jsx";
+import {LoadingProvider} from "./hoc/LoadingProvider.jsx";
 
 function App() {
     return (
-        <AuthProvider>
-            <Routes>
-                <Route path="/" element={<Layout/>}>
-                    <Route index element={<Home/>}/>
-                    <Route path="*" element={<NotFoundPage/>}></Route>
-                    <Route path="personal" element={
-                        <RequireAuth>
-                            <RequirePage/>
-                        </RequireAuth>
-                    }/>
-                </Route>
-                <Route path="/login" element={<Login/>}></Route>
-                <Route path="/register" element={<Register/>}></Route>
-            </Routes>
-        </AuthProvider>
+        <LoadingProvider>
+            <AuthProvider>
+                <Routes>
+                    <Route path="/" element={<Layout/>}>
+                        <Route index element={<Home/>}/>
+                        <Route path="*" element={<NotFoundPage/>}></Route>
+                        <Route path="personal" element={
+                            <RequireAuth>
+                                <RequirePage/>
+                            </RequireAuth>
+                        }/>
+                    </Route>
+                    <Route path="/login" element={<Login/>}></Route>
+                    <Route path="/register" element={<Register/>}></Route>
+                </Routes>
+            </AuthProvider>
+        </LoadingProvider>
     )
 }
 

@@ -7,7 +7,6 @@ export const AuthProvider = ({children}) => {
         localStorage.setItem('user', JSON.stringify(newUser))
         cb()
     }
-
     const signOut = (cb) => {
         localStorage.removeItem('user')
         cb()

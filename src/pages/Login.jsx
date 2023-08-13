@@ -6,8 +6,8 @@ import AppButton from "../components/UI/AppButton.jsx";
 import BgForm from "../assets/bg-form.jpg"
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import AppMessage from "../components/UI/AppMessage.jsx";
-import {useRequestManager} from "../hooks/useRequestManager.js";
 import {useAuth} from "../hooks/useAuth.js";
+import {useRequestManager} from "../hooks/useRequestManager.js";
 
 const LOGIN_URL = '/login'
 const Login = () => {
@@ -25,10 +25,9 @@ const Login = () => {
         } = useForm({
             mode: 'onBlur'
         });
-
-        const {isLoading, modal, sendRequest, closeModal} = useRequestManager();
+        const {isLoading, sendResponse, notification, closeNotification} = useRequestManager();
         const onSubmit = async (data) => {
-            const response = await sendRequest(LOGIN_URL, 'post', data);
+            const response = await sendResponse(LOGIN_URL, 'post', data);
             if (response) {
                 signIn(response.data, () => navigate(fromPage, {replace: true}))
             }
@@ -36,7 +35,7 @@ const Login = () => {
         };
 
         const logout = async () => {
-            const response = await sendRequest('/logout', 'delete');
+            const response = await sendResponse('/logout', 'delete',);
             if (response) {
                 signOut(() => navigate('/login', {replace: true}))
             }
@@ -48,12 +47,12 @@ const Login = () => {
             <div className="flex items-center justify-center h-screen">
                 <div
                     className="m-auto w-[1170px] bg-[#1E1F24] p-3 flex p-4 rounded-2xl flex items-center justify-between m-4 relative">
-                    {modal.isOpen &&
+                    {notification.isOpen &&
                         <AppMessage
-                            type={modal.type}
-                            message={modal.type}
-                            messageText={modal.message}
-                            closeModal={closeModal}
+                            type={notification.type}
+                            message={notification.type}
+                            messageText={notification.message}
+                            closeModal={closeNotification}
                         />
                     }
                     <div className="flex justify-center w-full">
