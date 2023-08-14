@@ -12,7 +12,9 @@ const AppMiniCard = ({...props}) => {
                         <p key={genre.id}>{index > 0 ? '/' : ''}{genre.name}</p>
                     ))}
                 </div>
-                <AppMark mark={props.movie.rating.value}/>
+                <div className="mt-2">
+                    <AppMark mark={props.movie.rating.value}/>
+                </div>
             </div>
         </div>
     )

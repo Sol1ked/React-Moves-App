@@ -33,8 +33,8 @@ const Layout = () => {
     const [menuItems, setMenuItems] = useState(data.slice())
     return (
         <>
-            <div className="w-screen h-screen flex justify-center">
-                <div className="w-full h-full flex items-start max-w-[1900px]">
+            <div className="w-screen min-h-screen h-full flex justify-center">
+                <div className="w-full flex items-start max-w-[1900px]">
                     <AppLeftSide menuItems={menuItems}/>
                     <div className="flex flex-col w-full">
                         <AppSearch/>

@@ -7,7 +7,7 @@ const AppMark = ({...props}) => {
         flex items-center
         justify-center gap-1 py-1 px-2
         bg-[#151310] bg-opacity-70
-        text-sm mt-4
+        text-sm
         text-[#E5E6EB] rounded-full">
             <p>{props.mark}</p>
             <HiStar size={18}/>

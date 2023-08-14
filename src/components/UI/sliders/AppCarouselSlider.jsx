@@ -1,43 +1,55 @@
 import React, {useState} from 'react';
 import {BsChevronCompactLeft, BsChevronCompactRight} from "react-icons/bs";
+import AppWatchedCard from "../cards/card/AppWatchedCard.jsx";
 
 const AppCarouselSlider = ({slides}) => {
     const [currentIndex, setCurrentIndex] = useState(0);
-    console.log(currentIndex)
-    const stepWidth = 420;
+    const stepWidth = 1300;
+    const limitScroll = Math.round(slides.length / 4) - 1;
 
-    const nextSlide = () => {
-        setCurrentIndex((currentIndex + 1) % slides.length);
+    const canScrollLeft = currentIndex > 0;
+    const canScrollRight = currentIndex <= limitScroll;
+
+    const handleSlideChange = (increment) => {
+        if ((increment > 0 && canScrollRight) || (increment < 0 && canScrollLeft)) {
+            setCurrentIndex((currentIndex + increment + slides.length) % slides.length);
+        }
     };
-    const prevSlide = () => {
-        setCurrentIndex((currentIndex - 1 + slides.length) % slides.length);
-    };
+
+    const showArrows = slides.length > 4;
+
     return (
-        <div className="max-w-[480px] h-[70px] w-full rounded-lg overflow-hidden relative group">
-            <div className="carousel-container relative w-full h-full">
+        <div className="h-full w-full rounded-lg overflow-hidden group">
+            <div className="carousel-container relative w-full h-full overflow-hidden">
                 <div
-                    className="flex gap-x-6 justify-center h-full transition-transform duration-500 ease-in-out transform"
+                    className="flex w-full gap-x-6 justify-start h-full transition-transform duration-500 ease-in-out transform relative"
                     style={{transform: `translateX(-${currentIndex * stepWidth}px)`}}>
                     {slides.map((slide) => (
-                        <div key={slide.id} className="flex-shrink-0 w-[120px] relative">
-                            <div className="absolute inset-0 bg-cover bg-center rounded-2xl"
-                                 style={{backgroundImage: `url('${slide.imgSrc}')`}}>
-                            </div>
+                        <div key={slide.id} className="flex-shrink-0">
+                            <AppWatchedCard card={slide}/>
                         </div>
                     ))}
                 </div>
-            </div>
-            <div className="absolute w-full h-full top-0">
-                {/* Левая стрелка */}
-                <div
-                    className="absolute top-[50%] group-hover:block -translate-y-1/2 left-2 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer">
-                    <BsChevronCompactLeft size={10} onClick={prevSlide}/>
-                </div>
-                {/* Правая стрелка */}
-                <div
-                    className="absolute top-[50%] group-hover:block -translate-y-1/2 right-2 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer">
-                    <BsChevronCompactRight onClick={nextSlide} size={10}/>
-                </div>
+                {showArrows && (
+                    <div className="group">
+                        {/* Левая стрелка */}
+                        {canScrollLeft && (
+                            <div
+                                className="absolute top-[40%] -translate-y-1/2 left-2 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer group-hover:block"
+                                onClick={() => handleSlideChange(-1)}>
+                                <BsChevronCompactLeft size={15}/>
+                            </div>
+                        )}
+                        {/* Правая стрелка */}
+                        {canScrollRight && (
+                            <div
+                                className="absolute top-[40%] -translate-y-1/2 right-2 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer group-hover:block"
+                                onClick={() => handleSlideChange(1)}>
+                                <BsChevronCompactRight size={15}/>
+                            </div>
+                        )}
+                    </div>
+                )}
             </div>
         </div>
     );
