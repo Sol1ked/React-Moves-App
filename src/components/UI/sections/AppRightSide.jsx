@@ -1,6 +1,6 @@
 import React from 'react';
-import AppMiniCardsList from "../AppMiniCardsList.jsx";
-import useMoviesLoader from "../../hooks/useMoviesLoader.js";
+import AppMiniCardsList from "../cards/AppMiniCardsList";
+import useMoviesLoader from "../../../hooks/useMoviesLoader";
 
 const POPULAR_MOVIES_URL = '/api/v1/films/popular?limit=3'
 const AppRightSide = () => {

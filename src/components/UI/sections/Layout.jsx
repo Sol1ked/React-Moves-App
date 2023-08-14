@@ -6,11 +6,9 @@ import {BsPerson} from "react-icons/bs";
 import {GoPeople} from "react-icons/go";
 import {RxExit} from "react-icons/rx";
 import {Link, Outlet,} from "react-router-dom";
-import AppMessage from "../components/UI/AppMessage.jsx";
-import {useRequestManager} from "../hooks/useRequestManager.js";
-import AppLeftSide from "../components/UI/AppLeftSide.jsx";
-import AppRightSide from "../components/UI/AppRightSide.jsx";
-import AppSearch from "../components/UI/AppSearch.jsx";
+import AppLeftSide from "../sections/AppLeftSide";
+import AppRightSide from "../sections/AppRightSide";
+import AppSearch from "../sections/AppSearch";
 
 const data = [
     {

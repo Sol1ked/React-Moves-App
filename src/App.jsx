@@ -1,6 +1,5 @@
 import './App.css'
 import {Route, Routes} from "react-router-dom";
-import Layout from "./components/Layout.jsx";
 import Login from "./pages/Login.jsx";
 import Home from "./pages/Home.jsx";
 import RequirePage from "./pages/RequirePage.jsx";
@@ -9,6 +8,7 @@ import RequireAuth from "./pages/RequireAuth.jsx";
 import Register from "./pages/Register.jsx";
 import {AuthProvider} from "./hoc/AuthProvider.jsx";
 import {LoadingProvider} from "./hoc/LoadingProvider.jsx";
+import Layout from "./components/UI/sections/Layout.jsx";
 
 function App() {
     return (

@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import {BsChevronCompactLeft, BsChevronCompactRight} from "react-icons/bs";
-import AppButton from "../UI/AppButton.jsx";
+import AppButton from "../AppButton";
 
 
-const Slider = ({movies}) => {
+const AppSlider = ({movies}) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const nextSlide = () => {
         const isLastSlide = currentIndex === movies.length - 1;
@@ -62,4 +62,4 @@ const Slider = ({movies}) => {
     );
 };
 
-export default Slider;
+export default AppSlider;

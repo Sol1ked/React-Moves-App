@@ -1,5 +1,5 @@
 import React from 'react';
-import AppMark from "../components/AppMark.jsx";
+import AppMark from "../card/AppMark";
 
 const AppMiniCard = ({...props}) => {
     return (

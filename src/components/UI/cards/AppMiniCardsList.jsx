@@ -1,6 +1,6 @@
 import React from 'react';
-import AppMiniCard from "../components/AppMiniCard.jsx";
-import AppButton from "../components/UI/AppButton.jsx";
+import AppMiniCard from "../cards/card/AppMiniCard";
+import AppButton from "../../UI/AppButton.jsx";
 
 const AppMiniCardsList = ({movies}) => {
     return (
