@@ -36,9 +36,9 @@ const Layout = () => {
             <div className="w-screen min-h-screen h-full flex justify-center">
                 <div className="w-full flex items-start max-w-[1900px]">
                     <AppLeftSide menuItems={menuItems}/>
-                    <div className="flex flex-col w-full">
+                    <div className="flex flex-col w-full items-center">
                         <AppSearch/>
-                        <div className="p-12">
+                        <div className="p-12 max-w-[1310px] w-full">
                             <Outlet/>
                         </div>
                     </div>

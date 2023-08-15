@@ -4,7 +4,7 @@ import AppMark from "./AppMark";
 const AppWatchedCard = ({card}) => {
     return (
         <div className="w-full h-full relative">
-            <div className="absolute right-4 top-4">
+            <div className="absolute right-[2%] top-[2%]">
                 <AppMark mark={4.2}/>
             </div>
             <img src="src/assets/example.jpg" alt="image" className="rounded-lg"/>

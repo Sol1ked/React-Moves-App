@@ -5,12 +5,12 @@ const AppMark = ({...props}) => {
     return (
         <div className="
         flex items-center
-        justify-center gap-1 py-1 px-2
+        justify-center gap-0.5 py-0.5 px-1.5
         bg-[#151310] bg-opacity-70
-        text-sm
-        text-[#E5E6EB] rounded-full">
+        text-xs text-[#E5E6EB]
+        rounded-full">
             <p>{props.mark}</p>
-            <HiStar size={18}/>
+            <HiStar size={16}/>
         </div>
     );
 };

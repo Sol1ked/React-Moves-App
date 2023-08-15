@@ -7,6 +7,7 @@ const useMoviesLoader = (apiResponse) => {
 
     const getPosts = async () => {
         const response = await sendResponse(apiResponse, 'get');
+        console.log(response)
         if (response) {
             setMovies(response.data);
         }
