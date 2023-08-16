@@ -11,13 +11,13 @@ const AppCard = ({card, type}) => {
                 <AppMark mark={4.2}/>
             </div>
             <img
-                src="src/assets/example.jpg"
+                src={card?.poster}
                 alt="img"
                 className={`${imageHeight} object-cover rounded-lg w-full`}
             />
             <div className="flex flex-col mt-3 font-bold">
-                <h3 className="text-[#E5E6EB] text-base">{card.title}</h3>
-                <p className="text-[#ABABAB] text-sm">{card.text}</p>
+                <h3 className="text-[#E5E6EB] text-base truncate">{card?.title}</h3>
+                <p className="text-[#ABABAB] text-sm">{card?.production_year}</p>
             </div>
         </div>
     );

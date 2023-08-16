@@ -2,9 +2,9 @@ import React, {useState} from 'react';
 import AppWatchedCard from "./card/AppWatchedCard.jsx";
 import AppCarouselSlider from "../sliders/AppCarouselSlider";
 
-const AppCardsList = ({children, type, cards, ...props}) => {
+const AppCardsList = ({children, type, cards}) => {
     return (
-        <div className="mt-12">
+        <div className="mt-12 relative px-12">
             <h2 className="text-[#E5E6EB] text-4xl font-bold">{children}</h2>
             <div className="flex flex-wrap mt-12 gap-x-4">
                 <AppCarouselSlider slides={cards} type={type}/>

@@ -32,20 +32,19 @@ const data = [
 const Layout = () => {
     const [menuItems, setMenuItems] = useState(data.slice())
     return (
-        <>
-            <div className="w-screen min-h-screen h-full flex justify-center">
-                <div className="w-full flex items-start max-w-[1900px]">
-                    <AppLeftSide menuItems={menuItems}/>
-                    <div className="flex flex-col w-full items-center">
-                        <AppSearch/>
-                        <div className="p-12 max-w-[1310px] w-full">
-                            <Outlet/>
-                        </div>
+        <div className="w-screen h-screen flex justify-center">
+            <div className="w-full flex max-w-[1900px] h-full m-auto">
+                <AppLeftSide menuItems={menuItems}/>
+                <div className="flex flex-col w-full max-w-[1300px] items-center">
+                    <AppSearch/>
+                    <div className="py-12 w-full">
+                        <Outlet/>
                     </div>
-                    <AppRightSide/>
                 </div>
+                <AppRightSide/>
             </div>
-        </>);
+        </div>
+    );
 };
 
 export default Layout;

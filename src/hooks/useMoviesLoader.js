@@ -1,23 +1,22 @@
 import {useEffect, useState} from "react";
 import {useRequestManager} from "../hooks/useRequestManager.js";
 
-const useMoviesLoader = (apiResponse) => {
-    const {sendResponse} = useRequestManager();
-    const [movies, setMovies] = useState([]);
+const useMoviesLoader = (apiResponses) => {
+        const [movies, setMovies] = useState([]);
+        const {sendResponse} = useRequestManager();
 
-    const getPosts = async () => {
-        const response = await sendResponse(apiResponse, 'get');
-        console.log(response)
-        if (response) {
-            setMovies(response.data);
+        const getPosts = async () => {
+            const movieResponses = await Promise.all(apiResponses.map(apiResponse => sendResponse(apiResponse, 'get')));
+            const moviesData = movieResponses.map((response) => response.data);
+            setMovies(moviesData)
         }
+
+        useEffect(() => {
+            getPosts()
+        }, [])
+
+        return {movies}
     }
-
-    useEffect(() => {
-        getPosts()
-    }, [])
-
-    return {movies}
-}
+;
 
 export default useMoviesLoader;

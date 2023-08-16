@@ -1,13 +1,14 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import AppMiniCardsList from "../cards/AppMiniCardsList";
 import useMoviesLoader from "../../../hooks/useMoviesLoader";
 
 const POPULAR_MOVIES_URL = '/api/v1/films/popular?limit=3'
 const AppRightSide = () => {
-    const {movies} = useMoviesLoader(POPULAR_MOVIES_URL);
+    const apiResponses = ['/api/v1/films/popular?limit=3']
+    const movies = useMoviesLoader(apiResponses)
     return (
         <div className="w-[300px] border-l-[#292A2F] border-l-[1px] bg-[#1C1D22] h-full p-12">
-            <AppMiniCardsList movies={movies}/>
+            <AppMiniCardsList movies={movies?.movies[0]}/>
         </div>
     );
 };

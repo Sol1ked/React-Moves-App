@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import {BsChevronCompactLeft, BsChevronCompactRight} from "react-icons/bs";
 import AppButton from "../AppButton";
 
-
 const AppSlider = ({movies}) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const nextSlide = () => {
@@ -21,11 +20,12 @@ const AppSlider = ({movies}) => {
     }
 
     return (
-        <div>
-            {movies.length &&
-                <div className="select-none h-[550px] w-full m-auto relative group">
-                    <div style={{backgroundImage: `url(${movies[currentIndex].poster})`}}
-                         className="w-full h-full rounded-2xl bg-center bg-cover duration-700 relative">
+        <div className="px-12">
+            {movies?.length &&
+                <div className="select-none h-[550px] w-full m-auto group">
+                    <div
+                        style={{backgroundImage: `url(${movies && movies[currentIndex] && movies[currentIndex].poster})`}}
+                        className="w-full h-full rounded-2xl bg-center bg-cover duration-700 relative">
                         {/*Левая стрелка*/}
                         <div
                             className="hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] left-2 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer">
@@ -43,21 +43,17 @@ const AppSlider = ({movies}) => {
                                 <AppButton btnText="Смотреть" type="tertiary"/>
                             </div>
                             <div className="flex items-center gap-4">
-                                {movies.map((slide, index) => (
-                                    <div
-                                        key={slide.id}
-                                        onClick={() => changeSlide(index)}
-                                        className={`w-[120px] bg-center bg-cover cursor-pointer rounded-2xl h-[70px] ${index === currentIndex ? 'border-4 border-gray' : 'border-none'}`}
-                                        style={{backgroundImage: `url(${slide.poster})`}}
-                                    ></div>
-                                ))}
+                                {movies.map((slide, index) => (<div
+                                    key={slide.id}
+                                    onClick={() => changeSlide(index)}
+                                    className={`w-[120px] bg-center bg-cover cursor-pointer rounded-2xl h-[70px] ${index === currentIndex ? 'border-4 border-gray' : 'border-none'}`}
+                                    style={{backgroundImage: `url(${slide.poster})`}}
+                                ></div>))}
                             </div>
                         </div>
                     </div>
-                </div>
-            }
-        </div>
-    );
+                </div>}
+        </div>);
 };
 
 export default AppSlider;
