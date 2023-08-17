@@ -3,19 +3,21 @@ import AppCard from "../cards/card/AppCard.jsx";
 import AppArrow from "../sliders/AppArrow.jsx";
 
 const AppCarouselSlider = ({slides, type}) => {
+
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [containerWidth, setContainerWidth] = useState(1200);
+    const [containerWidth, setContainerWidth] = useState(0);
     const containerRef = useRef(null);
 
     useEffect(() => {
         if (containerRef.current) {
             setContainerWidth(containerRef.current.getBoundingClientRect().width);
+        } else {
+            console.log('error')
         }
-    }, []);
+    }, [containerRef.current]);
 
-    const stepWidth = containerWidth;
-    const limitScroll = Math.ceil(containerWidth / stepWidth);
-    const canScrollRight = currentIndex <= limitScroll;
+    const limitScroll = Math.floor(slides?.length / 6);
+    const canScrollRight = currentIndex < limitScroll;
     const canScrollLeft = currentIndex > 0;
 
     const handleSlideChange = (increment) => {
@@ -31,8 +33,8 @@ const AppCarouselSlider = ({slides, type}) => {
                 <div>
                     <div className="overflow-hidden">
                         <div
-                            className="flex gap-x-11 justify-between transition-transform duration-700 ease-in-out transform relative"
-                            style={{transform: `translateX(-${currentIndex * stepWidth}px)`}}
+                            className="flex gap-x-10 justify-between transition-transform duration-1000 ease-in-out transform relative"
+                            style={{transform: `translateX(-${currentIndex * containerWidth}px)`}}
                             ref={containerRef}
                         >
                             {slides.map((slide) => (

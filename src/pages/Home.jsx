@@ -7,7 +7,6 @@ import AppCardsList from "../components/UI/cards/AppCardsList.jsx";
 const Home = () => {
     const apiResponses = ['/api/v1/films/new?limit=3', '/api/v1/films/big-rating']
     const movies = useMoviesLoader(apiResponses)
-    
     return (
         <div className="w-full flex flex-col">
             <AppSlider movies={movies?.movies?.[0]}/>

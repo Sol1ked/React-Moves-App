@@ -5,7 +5,7 @@ const AppCustomLink = ({children, to, icon, ...props}) => {
     const match = useMatch(to)
     return (
         <div
-            className={`border-l-4 ${match ? 'border-l-[#D32125]' : 'border-l-[#1C1D22]'} duration-500 flex gap-x-4 px-10 w-full`}>
+            className={`border-l-4 ${match ? 'border-l-[#D32125]' : 'border-l-[#1C1D22]'} hover:bg-[#292A2F] duration-500 flex items-center gap-x-4 px-10 w-full`}>
             <i className={match ? 'text-[#D32125]' : 'text-[#60606C]'}>{icon}</i>
             <Link
                 {...props}
