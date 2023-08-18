@@ -3,7 +3,7 @@ import AppCustomLink from "../AppCustomLink.jsx";
 
 const AppLeftSide = ({menuItems}) => {
     return (
-        <div className="w-[300px]  border-r-[#292A2F] border-r-[1px] bg-[#1C1D22] h-full py-12">
+        <div className="w-[300px]  border-r-[#292A2F] border-r-[1px] bg-[#1C1D22] py-12">
             <img src="src/assets/logo.svg" alt="logo" className="px-10"/>
             {menuItems.map(mItem => (
                 <div key={mItem.id} className="flex flex-col items-start mt-12 text-[#60606C]">

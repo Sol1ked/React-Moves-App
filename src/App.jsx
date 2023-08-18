@@ -9,24 +9,27 @@ import Register from "./pages/Register.jsx";
 import {AuthProvider} from "./hoc/AuthProvider.jsx";
 import {LoadingProvider} from "./hoc/LoadingProvider.jsx";
 import Layout from "./components/UI/sections/Layout.jsx";
+import {DataProvider} from "./context/DataContext";
 
 function App() {
     return (
         <LoadingProvider>
             <AuthProvider>
-                <Routes>
-                    <Route path="/" element={<Layout/>}>
-                        <Route index element={<Home/>}/>
-                        <Route path="*" element={<NotFoundPage/>}></Route>
-                        <Route path="personal" element={
-                            <RequireAuth>
-                                <RequirePage/>
-                            </RequireAuth>
-                        }/>
-                    </Route>
-                    <Route path="/login" element={<Login/>}></Route>
-                    <Route path="/register" element={<Register/>}></Route>
-                </Routes>
+                <DataProvider>
+                    <Routes>
+                        <Route path="/" element={<Layout/>}>
+                            <Route index element={<Home/>}/>
+                            <Route path="*" element={<NotFoundPage/>}></Route>
+                            <Route path="personal" element={
+                                <RequireAuth>
+                                    <RequirePage/>
+                                </RequireAuth>
+                            }/>
+                        </Route>
+                        <Route path="/login" element={<Login/>}></Route>
+                        <Route path="/register" element={<Register/>}></Route>
+                    </Routes>
+                </DataProvider>
             </AuthProvider>
         </LoadingProvider>
     )

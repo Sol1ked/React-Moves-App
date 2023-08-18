@@ -28,12 +28,12 @@ const AppCarouselSlider = ({slides, type}) => {
 
     return (
 
-        <div className="h-full w-full select-none max-w-[1200px]">
+        <div className="h-full w-full select-none">
             {slides?.length > 0 &&
                 <div>
                     <div className="overflow-hidden">
                         <div
-                            className="flex gap-x-10 justify-between transition-transform duration-1000 ease-in-out transform relative"
+                            className={`${type ? 'gap-x-8' : 'gap-x-[21px]'}  flex justify-start transition-transform duration-1000 ease-in-out transform relative`}
                             style={{transform: `translateX(-${currentIndex * containerWidth}px)`}}
                             ref={containerRef}
                         >
@@ -47,7 +47,7 @@ const AppCarouselSlider = ({slides, type}) => {
                     </div>
                     <div
                         className="absolute right-0 top-1/2 justify-between w-full flex items-center rounded-lg overflow-hidden group">
-                        <div className="w-12 flex items-center justify-center">
+                        <div className="w-12 h-12 flex items-center justify-center">
                             {canScrollLeft &&
                                 <AppArrow
                                     canScroll={canScrollLeft}

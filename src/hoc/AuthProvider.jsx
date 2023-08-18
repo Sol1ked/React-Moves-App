@@ -1,14 +1,16 @@
 import {createContext} from "react";
+import {useUserSession} from "../hooks/useUserSession.js";
 
 export const AuthContext = createContext({});
 
 export const AuthProvider = ({children}) => {
+    const {userAuth, userLogout} = useUserSession()
     const signIn = (newUser, cb) => {
-        localStorage.setItem('user', JSON.stringify(newUser))
+        userAuth(newUser)
         cb()
     }
     const signOut = (cb) => {
-        localStorage.removeItem('user')
+        userLogout()
         cb()
     }
 

@@ -9,6 +9,7 @@ import {Link, Outlet,} from "react-router-dom";
 import AppLeftSide from "../sections/AppLeftSide";
 import AppRightSide from "../sections/AppRightSide";
 import AppSearch from "../sections/AppSearch";
+import useMoviesLoader from "../../../hooks/useMoviesLoader.js";
 
 const data = [
     {
@@ -31,13 +32,14 @@ const data = [
     },]
 const Layout = () => {
     const [menuItems, setMenuItems] = useState(data.slice())
+
     return (
-        <div className="w-screen h-screen flex justify-center">
+        <div className="w-full min-h-screen h-screen">
             <div className="w-full flex max-w-[1900px] h-full m-auto">
                 <AppLeftSide menuItems={menuItems}/>
-                <div className="flex flex-col w-full max-w-[1300px] items-center">
+                <div className="flex flex-col w-full max-w-[1200px] items-center">
                     <AppSearch/>
-                    <div className="py-12 w-full">
+                    <div className="p-12 w-full">
                         <Outlet/>
                     </div>
                 </div>

@@ -2,17 +2,17 @@ import React, {useState} from 'react';
 import {BsChevronCompactLeft, BsChevronCompactRight} from "react-icons/bs";
 import AppButton from "../AppButton";
 
-const AppSlider = ({movies}) => {
+const AppSlider = ({cards}) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const nextSlide = () => {
-        const isLastSlide = currentIndex === movies.length - 1;
+        const isLastSlide = currentIndex === cards.length - 1;
         const newIndex = isLastSlide ? 0 : currentIndex + 1;
         setCurrentIndex(newIndex);
     }
 
     const presSlide = () => {
         const isLastSlide = currentIndex === 0;
-        const newIndex = isLastSlide ? movies.length - 1 : currentIndex - 1;
+        const newIndex = isLastSlide ? cards.length - 1 : currentIndex - 1;
         setCurrentIndex(newIndex);
     }
     const changeSlide = (i) => {
@@ -20,11 +20,11 @@ const AppSlider = ({movies}) => {
     }
 
     return (
-        <div className="px-12">
-            {movies?.length &&
+        <div className="">
+            {cards?.length &&
                 <div className="select-none h-[550px] w-full m-auto group">
                     <div
-                        style={{backgroundImage: `url(${movies && movies[currentIndex] && movies[currentIndex].poster})`}}
+                        style={{backgroundImage: `url(${cards && cards[currentIndex] && cards[currentIndex].poster})`}}
                         className="w-full h-full rounded-2xl bg-center bg-cover duration-700 relative">
                         {/*Левая стрелка*/}
                         <div
@@ -38,12 +38,12 @@ const AppSlider = ({movies}) => {
                         </div>
                         <div className="flex items-end absolute px-12  bottom-12 w-full justify-between">
                             <div className="text-white flex flex-col gap-6">
-                                <h1 className="text-5xl font-bold">{movies[currentIndex].title}</h1>
+                                <h1 className="text-5xl font-bold">{cards[currentIndex].title}</h1>
                                 <p className="text-sm font-bold"></p>
                                 <AppButton btnText="Смотреть" type="tertiary"/>
                             </div>
                             <div className="flex items-center gap-4">
-                                {movies.map((slide, index) => (<div
+                                {cards.map((slide, index) => (<div
                                     key={slide.id}
                                     onClick={() => changeSlide(index)}
                                     className={`w-[120px] bg-center bg-cover cursor-pointer rounded-2xl h-[70px] ${index === currentIndex ? 'border-4 border-gray' : 'border-none'}`}

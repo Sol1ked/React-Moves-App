@@ -8,6 +8,7 @@ import {Link, useLocation, useNavigate} from "react-router-dom";
 import AppMessage from "../components/UI/AppMessage.jsx";
 import {useAuth} from "../hooks/useAuth.js";
 import {useRequestManager} from "../hooks/useRequestManager.js";
+import {useLoading} from "../hooks/useLoading.js";
 
 const LOGIN_URL = '/login'
 const Login = () => {
@@ -25,7 +26,9 @@ const Login = () => {
         } = useForm({
             mode: 'onBlur'
         });
-        const {isLoading, sendResponse, notification, closeNotification} = useRequestManager();
+        const {sendResponse, notification, closeNotification} = useRequestManager();
+        const {isLoading} = useLoading()
+        console.log(isLoading)
         const onSubmit = async (data) => {
             const response = await sendResponse(LOGIN_URL, 'post', data);
             if (response) {
