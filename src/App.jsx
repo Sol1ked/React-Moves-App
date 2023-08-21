@@ -14,8 +14,8 @@ import {DataProvider} from "./context/DataContext";
 function App() {
     return (
         <LoadingProvider>
-            <AuthProvider>
-                <DataProvider>
+            <DataProvider>
+                <AuthProvider>
                     <Routes>
                         <Route path="/" element={<Layout/>}>
                             <Route index element={<Home/>}/>
@@ -29,8 +29,8 @@ function App() {
                         <Route path="/login" element={<Login/>}></Route>
                         <Route path="/register" element={<Register/>}></Route>
                     </Routes>
-                </DataProvider>
-            </AuthProvider>
+                </AuthProvider>
+            </DataProvider>
         </LoadingProvider>
     )
 }

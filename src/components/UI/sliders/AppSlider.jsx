@@ -20,9 +20,9 @@ const AppSlider = ({cards}) => {
     }
 
     return (
-        <div className="">
+        <div>
             {cards?.length &&
-                <div className="select-none h-[550px] w-full m-auto group">
+                <div className="select-none h-[550px] max-w-[1200px] w-full m-auto group">
                     <div
                         style={{backgroundImage: `url(${cards && cards[currentIndex] && cards[currentIndex].poster})`}}
                         className="w-full h-full rounded-2xl bg-center bg-cover duration-700 relative">

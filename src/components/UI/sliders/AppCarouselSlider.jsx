@@ -28,12 +28,12 @@ const AppCarouselSlider = ({slides, type}) => {
 
     return (
 
-        <div className="h-full w-full select-none">
+        <div className="select-none w-full m-auto group">
             {slides?.length > 0 &&
-                <div>
+                <div className="flex items-center justify-between">
                     <div className="overflow-hidden">
                         <div
-                            className={`${type ? 'gap-x-8' : 'gap-x-[21px]'}  flex justify-start transition-transform duration-1000 ease-in-out transform relative`}
+                            className={`${type ? 'gap-x-6' : 'gap-x-12'}  flex justify-start transition-transform duration-1000 ease-in-out transform relative`}
                             style={{transform: `translateX(-${currentIndex * containerWidth}px)`}}
                             ref={containerRef}
                         >
@@ -45,8 +45,7 @@ const AppCarouselSlider = ({slides, type}) => {
                                 </div>))}
                         </div>
                     </div>
-                    <div
-                        className="absolute right-0 top-1/2 justify-between w-full flex items-center rounded-lg overflow-hidden group">
+                    <div className="absolute flex justify-between w-full">
                         <div className="w-12 h-12 flex items-center justify-center">
                             {canScrollLeft &&
                                 <AppArrow
@@ -56,14 +55,14 @@ const AppCarouselSlider = ({slides, type}) => {
                                 />
                             }
                         </div>
-                        <div className="w-12 h-12 flex items-center justify-center">
-                            {canScrollRight &&
+                        {canScrollRight &&
+                            <div className="w-12 h-12">
                                 <AppArrow
                                     canScroll={canScrollRight}
                                     direction="right"
                                     onClick={() => handleSlideChange(1)}/>
-                            }
-                        </div>
+                            </div>
+                        }
                     </div>
                 </div>
             }

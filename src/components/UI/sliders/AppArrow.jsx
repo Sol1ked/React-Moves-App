@@ -6,7 +6,7 @@ const AppArrow = ({direction, onClick}) => {
 
     return (
         <div
-            className='text-2xl w-full flex items-center justify-center'>
+            className='text-2xl flex items-center justify-center'>
             {direction === 'left'
                 ? (
                     <BsChevronCompactLeft

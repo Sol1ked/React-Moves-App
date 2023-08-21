@@ -1,15 +1,13 @@
 export const useUserSession = () => {
     const userAuth = (user) => {
-        localStorage.setItem('user', JSON.stringify(user))
-    }
+        localStorage.setItem('user', JSON.stringify(user));
+    };
     const userLogout = () => {
-        localStorage.removeItem(JSON.stringify('user'))
-    }
-
+        localStorage.removeItem('user');
+    };
     const userInfo = () => {
-        return JSON.parse(localStorage.getItem('user'))
-    }
+        return JSON.parse(localStorage.getItem('user'));
+    };
 
-
-    return {userAuth, userLogout, userInfo}
-}
+    return {userAuth, userLogout, userInfo};
+};

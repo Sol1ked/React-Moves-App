@@ -6,12 +6,11 @@ const COOKIE_URL = '/sanctum/csrf-cookie';
 
 
 export const useRequestManager = () => {
-    const {showLoading, hideLoading} = useLoading();
-    const [notification, setNotification] = useState({
-        isOpen: false,
-        type: '',
-        message: ''
-    })
+    const {
+        showLoading,
+        hideLoading,
+        showNotification,
+    } = useLoading();
     const getCookie = async () => {
         try {
             await axios.get(COOKIE_URL)
@@ -31,38 +30,29 @@ export const useRequestManager = () => {
             };
         }
     }
-
-    const openNotification = (content) => {
-        const newNotification = {
-            isOpen: true,
-            ...content
-        }
-        setNotification(newNotification)
-    }
-
-    const closeNotification = () => {
-        setNotification({isOpen: false, type: "", message: ""})
-    }
     const sendResponse = async (url, method, data) => {
         try {
             showLoading();
             await getCookie();
             const response = await axios[method](url, data);
-            const modalContent = await addNotificationMessage(response);
-            openNotification(modalContent);
-            return response;
+            if (method !== 'get') {
+                const modalContent = await addNotificationMessage(response);
+                showNotification(modalContent);
+            }
+            console.log(response.data)
+            return response.data;
         } catch (e) {
             const errorMessage = e.response?.data?.message || "Произошла ошибка";
             const notificationContent = {
                 type: "error", message: errorMessage,
             };
-            openNotification(notificationContent)
+            showNotification(notificationContent)
         } finally {
             hideLoading();
         }
     }
 
 
-    return {sendResponse, notification, closeNotification}
+    return {sendResponse}
 
 }

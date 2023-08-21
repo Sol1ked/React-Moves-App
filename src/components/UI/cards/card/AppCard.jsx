@@ -2,7 +2,7 @@ import React from 'react';
 import AppMark from "../card/AppMark.jsx";
 
 const AppCard = ({card, type}) => {
-    const cardWidth = type ? 'w-[270px]' : 'w-[200px]';
+    const cardWidth = type ? 'w-[280px]' : 'w-[200px]';
     const imageHeight = type ? 'h-[180px]' : 'h-[280px]';
 
     return (

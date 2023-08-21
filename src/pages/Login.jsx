@@ -15,7 +15,9 @@ const Login = () => {
         const navigate = useNavigate();
         const location = useLocation();
         const fromPage = location.state?.from?.pathname || '/';
-        const {signIn, signOut} = useAuth()
+        const {signIn, signOut} = useAuth();
+        const {sendResponse} = useRequestManager();
+        const {isLoading, notification, hideNotification} = useLoading();
         const {
             register,
             formState: {
@@ -26,23 +28,17 @@ const Login = () => {
         } = useForm({
             mode: 'onBlur'
         });
-        const {sendResponse, notification, closeNotification} = useRequestManager();
-        const {isLoading} = useLoading()
-        console.log(isLoading)
+
         const onSubmit = async (data) => {
             const response = await sendResponse(LOGIN_URL, 'post', data);
-            if (response) {
-                signIn(response.data, () => navigate(fromPage, {replace: true}))
-            }
-            reset()
-        };
-
-        const logout = async () => {
-            const response = await sendResponse('/logout', 'delete',);
-            if (response) {
-                signOut(() => navigate('/login', {replace: true}))
-            }
+            await signIn(response.data, () => navigate(fromPage, {replace: true}))
             reset();
+        };
+        const logout = async () => {
+            await sendResponse('/logout', 'delete');
+            await signOut(() => {
+                navigate('/login', {replace: true})
+            });
         };
 
 
@@ -55,7 +51,7 @@ const Login = () => {
                             type={notification.type}
                             message={notification.type}
                             messageText={notification.message}
-                            closeModal={closeNotification}
+                            closeModal={hideNotification}
                         />
                     }
                     <div className="flex justify-center w-full">

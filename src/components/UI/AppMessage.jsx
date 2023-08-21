@@ -28,10 +28,10 @@ const AppMessage = ({type, closeModal, messageText, message, ...props}) => {
                 ${type === 'error'
                 ? 'border-red-700'
                 : 'border-green-700'}
-                fixed top-4 left-2/4
+                fixed top-[3%] right-[1%]
                 z-10
                 border-l-[6px] 
-                flex items-stretch bg-[#1C1D22] 
+                flex items-stretch bg-[#1E1F24] 
                 rounded gap-4 justify-between
             `}>
             <div className="flex items-center gap-2 p-2">
