@@ -5,7 +5,7 @@ import Home from "./pages/Home.jsx";
 import RequirePage from "./pages/RequirePage.jsx";
 import NotFoundPage from "./pages/NotFoundPage.jsx";
 import RequireAuth from "./pages/RequireAuth.jsx";
-import Register from "./pages/Register.jsx";
+// import Register from "./pages/Register.jsx";
 import {AuthProvider} from "./hoc/AuthProvider.jsx";
 import {LoadingProvider} from "./hoc/LoadingProvider.jsx";
 import Layout from "./components/UI/sections/Layout.jsx";
@@ -27,7 +27,7 @@ function App() {
                             }/>
                         </Route>
                         <Route path="/login" element={<Login/>}></Route>
-                        <Route path="/register" element={<Register/>}></Route>
+                        {/*<Route path="/register" element={<Register/>}></Route>*/}
                     </Routes>
                 </AuthProvider>
             </DataProvider>

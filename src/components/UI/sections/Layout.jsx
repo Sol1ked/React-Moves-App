@@ -7,9 +7,9 @@ import {GoPeople} from "react-icons/go";
 import {RxExit} from "react-icons/rx";
 import {Outlet, useNavigate,} from "react-router-dom";
 import AppLeftSide from "../sections/AppLeftSide";
-import AppRightSide from "../sections/AppRightSide";
+// import AppRightSide from "../sections/AppRightSide";
 import AppSearch from "../sections/AppSearch";
-import {useLoading} from "../../../hooks/useLoading";
+// import {useLoading} from "../../../hooks/useLoading";
 import AppMessage from "../AppMessage.jsx";
 import AppButton from "../AppButton.jsx";
 
@@ -40,32 +40,34 @@ const data = [{
 },]
 const Layout = () => {
     const [menuItems, setMenuItems] = useState(data.slice())
-    const {isLoading, notification, hideNotification} = useLoading();
+    // const {isLoading, notification, hideNotification} = useLoading();
 
     return (
         <div className="w-full h-full">
             <div className="w-full min-h-screen flex justify-center">
-                {notification.isOpen &&
-                    <AppMessage
-                        type={notification.type}
-                        message={notification.type}
-                        messageText={notification.message}
-                        closeModal={hideNotification}
-                    />
-                }
+                {/*{notification.isOpen &&*/}
+                {/*    <AppMessage*/}
+                {/*        type={notification.type}*/}
+                {/*        message={notification.type}*/}
+                {/*        messageText={notification.message}*/}
+                {/*        closeModal={hideNotification}*/}
+                {/*    />*/}
+                {/*}*/}
                 <AppLeftSide menuItems={menuItems}/>
                 <div className="w-full max-w-[1300px]">
                     <AppSearch/>
                     <div className="p-12">
-                        {isLoading
-                            ?
-                            <div>
-                                <h1>Идет загрузка...</h1>
-                            </div>
-                            : <Outlet/>}
+                        {/*{isLoading*/}
+                        {/*    ?*/}
+                        {/*    <div>*/}
+                        {/*        <h1>Идет загрузка...</h1>*/}
+                        {/*    </div>*/}
+                        {/*    : */}
+                        <Outlet/>
+                        {/*}*/}
                     </div>
                 </div>
-                <AppRightSide/>
+                {/*<AppRightSide/>*/}
             </div>
         </div>
     );

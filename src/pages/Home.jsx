@@ -2,7 +2,7 @@ import React from 'react';
 import AppSlider from "../components/UI/sliders/AppSlider.jsx";
 import AppCardsList from "../components/UI/cards/AppCardsList.jsx";
 import {useData} from "../context/DataContext";
-import {useLoading} from "../hooks/useLoading.js";
+// import {useLoading} from "../hooks/useLoading.js";
 
 
 const Home = () => {
