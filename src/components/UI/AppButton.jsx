@@ -1,6 +1,9 @@
 import React from 'react';
 
-const AppButton = ({type, btnText, isLoading, ...props}) => {
+const AppButton = ({type, btnText, ...props}) => {
+
+
+
     const nameClass = ' cursor-pointer px-6 py-3 outline-none rounded-xl text-base  text-center text-[#fff] flex justify-center'
 
     const primary = 'text-[#fff] bg-[#D32125] w-full'

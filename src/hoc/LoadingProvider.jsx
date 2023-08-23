@@ -1,6 +1,6 @@
 import React, {createContext, useContext, useState} from 'react';
 
-const LoadingContext = createContext(null);
+export const LoadingContext = createContext(null);
 export const LoadingProvider = ({children}) => {
     const [isLoading, setIsLoading] = useState(false);
     const [notification, setNotification] = useState({
@@ -49,22 +49,6 @@ export const LoadingProvider = ({children}) => {
     );
 };
 
-export const useLoadingManager = () => {
-    const {
-        isLoading,
-        showLoading,
-        hideLoading,
-        showNotification,
-        hideNotification,
-        notification
-    } = useContext(LoadingContext);
-
-    return {
-        isLoading,
-        showLoading,
-        hideLoading,
-        showNotification,
-        hideNotification,
-        notification
-    };
+export const useLoading = () => {
+    return useContext(LoadingContext);
 };

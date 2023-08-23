@@ -1,42 +1,46 @@
-import {createContext, useState} from "react";
-import {userInfo, userLogin, userLogout, userRegister} from "../api/user.js";
+import {createContext, useEffect, useState} from "react";
+import {useRequestManager} from "../hooks/useRequestManager.js";
+import {getUserToLocalStorage, removeUserToLocalStorage, setUserToLocalStorage} from "../utils/localStorageUtils.js";
 
 export const AuthContext = createContext({});
-
 export const AuthProvider = ({children}) => {
-    const [user, setUser] = useState(null);
+    const {sendResponse} = useRequestManager();
+    const savedUser = getUserToLocalStorage();
+
+    const [user, setUser] = useState(savedUser);
+
     const signIn = async (data) => {
-        const userData = await userLogin(data);
-        console.log(userData)
-        setUser(userData);
+        const response = await sendResponse("/login", "post", data);
+        setUser(response.data);
+        await getUserInfoData();
     };
-
     const signUp = async (data) => {
-        const newUser = await userRegister(data);
-        setUser(newUser);
+        const response = await sendResponse("/register", "post", data);
+        setUser(response.data);
+        await getUserInfoData();
     };
-
     const getUserInfoData = async () => {
-        await userInfo();
-        setUser(null);
+        const response = await sendResponse("/api/v1/profile", "get");
+        if (response) {
+            setUserToLocalStorage(response.data);
+            setUser(response.data);
+        } else {
+            await signOut();
+        }
     };
 
     const signOut = async () => {
-        await userLogout();
+        await sendResponse("/logout", "delete");
         setUser(null);
+        removeUserToLocalStorage();
     };
 
     const contextValue = {
-        user,
-        signIn,
-        signUp,
-        getUserInfoData,
-        signOut,
+        user, signIn, signUp, getUserInfoData, signOut,
     };
 
-    return (
-        <AuthContext.Provider value={contextValue}>
-            {children}
-        </AuthContext.Provider>
-    );
+
+    return (<AuthContext.Provider value={contextValue}>
+        {children}
+    </AuthContext.Provider>);
 };

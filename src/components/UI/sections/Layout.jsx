@@ -1,17 +1,17 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {CgHome} from "react-icons/cg";
 import {RiHeart3Line} from "react-icons/ri";
 import {BiHistory} from "react-icons/bi";
 import {BsPerson} from "react-icons/bs";
 import {GoPeople} from "react-icons/go";
 import {RxExit} from "react-icons/rx";
-import {Outlet, useNavigate,} from "react-router-dom";
+import {Outlet} from "react-router-dom";
 import AppLeftSide from "../sections/AppLeftSide";
 // import AppRightSide from "../sections/AppRightSide";
-import AppSearch from "../sections/AppSearch";
-// import {useLoading} from "../../../hooks/useLoading";
+// import AppSearch from "../sections/AppSearch";
 import AppMessage from "../AppMessage.jsx";
 import AppButton from "../AppButton.jsx";
+import {LoadingContext} from "../../../hoc/LoadingProvider.jsx";
 
 const data = [{
     id: 1,
@@ -40,22 +40,22 @@ const data = [{
 },]
 const Layout = () => {
     const [menuItems, setMenuItems] = useState(data.slice())
-    // const {isLoading, notification, hideNotification} = useLoading();
+    const {isLoading, notification, hideNotification} = useContext(LoadingContext);
 
     return (
         <div className="w-full h-full">
             <div className="w-full min-h-screen flex justify-center">
-                {/*{notification.isOpen &&*/}
-                {/*    <AppMessage*/}
-                {/*        type={notification.type}*/}
-                {/*        message={notification.type}*/}
-                {/*        messageText={notification.message}*/}
-                {/*        closeModal={hideNotification}*/}
-                {/*    />*/}
-                {/*}*/}
+                {notification.isOpen &&
+                    <AppMessage
+                        type={notification.type}
+                        message={notification.type}
+                        messageText={notification.message}
+                        closeModal={hideNotification}
+                    />
+                }
                 <AppLeftSide menuItems={menuItems}/>
                 <div className="w-full max-w-[1300px]">
-                    <AppSearch/>
+                    {/*<AppSearch/>*/}
                     <div className="p-12">
                         {/*{isLoading*/}
                         {/*    ?*/}
