@@ -1,13 +1,25 @@
 import {createContext, useEffect, useState} from "react";
 import {useRequestManager} from "../hooks/useRequestManager.js";
-import {getUserToLocalStorage, removeUserToLocalStorage, setUserToLocalStorage} from "../utils/localStorageUtils.js";
+import {
+    getUserToLocalStorage,
+    setUserToLocalStorage,
+    removeUserToLocalStorage,
+} from "../utils/localStorageUtils.js";
 
 export const AuthContext = createContext({});
 export const AuthProvider = ({children}) => {
-    const {sendResponse} = useRequestManager();
     const savedUser = getUserToLocalStorage();
-
-    const [user, setUser] = useState(savedUser);
+    const [user, setUser] = useState(savedUser ? savedUser : null);
+    const {sendResponse} = useRequestManager();
+    const getUserInfoData = async () => {
+        const response = await sendResponse("/api/v1/profile", "get");
+        if (response.data) {
+            setUserToLocalStorage(response.data);
+            setUser(response.data);
+        } else {
+            await signOut();
+        }
+    };
 
     const signIn = async (data) => {
         const response = await sendResponse("/login", "post", data);
@@ -19,15 +31,6 @@ export const AuthProvider = ({children}) => {
         setUser(response.data);
         await getUserInfoData();
     };
-    const getUserInfoData = async () => {
-        const response = await sendResponse("/api/v1/profile", "get");
-        if (response) {
-            setUserToLocalStorage(response.data);
-            setUser(response.data);
-        } else {
-            await signOut();
-        }
-    };
 
     const signOut = async () => {
         await sendResponse("/logout", "delete");
@@ -36,11 +39,16 @@ export const AuthProvider = ({children}) => {
     };
 
     const contextValue = {
-        user, signIn, signUp, getUserInfoData, signOut,
+        user,
+        signIn,
+        signUp,
+        getUserInfoData,
+        signOut,
     };
 
-
-    return (<AuthContext.Provider value={contextValue}>
-        {children}
-    </AuthContext.Provider>);
+    return (
+        <AuthContext.Provider value={contextValue}>
+            {children}
+        </AuthContext.Provider>
+    );
 };

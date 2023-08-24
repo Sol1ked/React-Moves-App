@@ -7,8 +7,8 @@ import {GoPeople} from "react-icons/go";
 import {RxExit} from "react-icons/rx";
 import {Outlet} from "react-router-dom";
 import AppLeftSide from "../sections/AppLeftSide";
-// import AppRightSide from "../sections/AppRightSide";
-// import AppSearch from "../sections/AppSearch";
+import AppRightSide from "../sections/AppRightSide";
+import AppSearch from "../sections/AppSearch";
 import AppMessage from "../AppMessage.jsx";
 import AppButton from "../AppButton.jsx";
 import {LoadingContext} from "../../../hoc/LoadingProvider.jsx";
@@ -55,7 +55,7 @@ const Layout = () => {
                 }
                 <AppLeftSide menuItems={menuItems}/>
                 <div className="w-full max-w-[1300px]">
-                    {/*<AppSearch/>*/}
+                    <AppSearch/>
                     <div className="p-12">
                         {/*{isLoading*/}
                         {/*    ?*/}
@@ -67,7 +67,7 @@ const Layout = () => {
                         {/*}*/}
                     </div>
                 </div>
-                {/*<AppRightSide/>*/}
+                <AppRightSide/>
             </div>
         </div>
     );

@@ -14,7 +14,7 @@ const Login = () => {
         const location = useLocation();
         const fromPage = location.state?.from?.pathname || '/';
         const {signIn, signOut} = useAuth();
-        const {notification, hideNotification, isLoading} = useLoading()
+        const {notification, hideNotification} = useLoading()
         const {
             register,
             formState: {errors},
@@ -84,7 +84,6 @@ const Login = () => {
                                 <AppButton
                                     type="primary"
                                     btnText="Войти"
-                                    isLoading={isLoading}
                                 />
                             </AppForm>
                             <AppButton

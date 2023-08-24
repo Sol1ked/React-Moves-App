@@ -6,5 +6,5 @@ export const getUserToLocalStorage = () => {
     return user ? JSON.parse(user) : null
 }
 export const removeUserToLocalStorage = () => {
-    localStorage.removeItem("user")
+    localStorage.removeItem('user')
 }
